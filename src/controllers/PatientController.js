@@ -11,6 +11,17 @@ class PatientController{
             });
         }
         const {patient} = req.body;
+
+        const checkPatient = await Patient.findOne({
+            where : {name : patient.name}
+        });
+
+        if(checkPatient)
+            return res.status(400).json({
+                success : false,
+                message : 'patient name already exists'
+            });
+
         const newPatient = await Patient.create(patient);
         
         return res.status(201).json({

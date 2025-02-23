@@ -1,5 +1,6 @@
 const Doctor = require("../models/Doctor.js");
 const { doctorValidation} = require('../utils/validation.js');
+const {Op} = require("sequelize")
 
 class DoctorController{
     async addDoctor(req,res){
@@ -11,6 +12,21 @@ class DoctorController{
             });
         }
         const {doctor} = req.body;
+        const checkDoctor = await Doctor.findOne({
+            where : {
+                [Op.or] : [
+                    {name : doctor.name},
+                    {email : doctor.email}
+                ]
+            }
+        })
+
+        if(checkDoctor)
+            return res.status(400).json({
+                success : false,
+                message : 'doctor with given name/email already exists'
+            });
+
         const newDoctor = await Doctor.create(doctor);
 
         return res.status(201).json({

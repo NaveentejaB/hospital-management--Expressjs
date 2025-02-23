@@ -33,6 +33,13 @@ const Patient = sequelize.define("Patient", {
         },
         defaultValue: 'Male'
     },
+    age : {
+        type : Sequelize.DataTypes.NUMBER,
+        validate :{
+            min : 0, max : 130
+        },
+        allowNull : false
+    },
     contactNumber:{
         type:Sequelize.DataTypes.STRING,
         allowNull: false,

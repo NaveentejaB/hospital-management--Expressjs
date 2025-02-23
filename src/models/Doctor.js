@@ -21,6 +21,21 @@ const Doctor = sequelize.define("Doctor", {
         allowNull: false,
         unique: true
     },
+    age : {
+        type : Sequelize.DataTypes.NUMBER,
+        validate :{
+            min : 0, max : 130
+        },
+        allowNull : false
+    },
+    gender :{
+        type: Sequelize.DataTypes.STRING,  
+        allowNull: false,
+        validate: {
+            isIn: [['Male', 'Female', 'Other']]  // Validate the values
+        },
+        defaultValue: 'Male'
+    },
     specialization : {
         type:Sequelize.DataTypes.TEXT,
         allowNull: false,
